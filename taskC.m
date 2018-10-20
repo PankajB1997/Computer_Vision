@@ -11,7 +11,7 @@ img_enhanced = histeq(img, 256);
 
 %% Question C2
 
-keypoints = [10 30; 70 70; 100 130; 150 180; 200 190; 255 220];
+keypoints = [11 51; 23 70; 34 120; 59 200];
 img_C = htrans(img, keypoints);
 
 function Iout = htrans(Iin, keypoints)
