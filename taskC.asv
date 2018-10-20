@@ -1,5 +1,5 @@
 %{ 
-  Script for Task C of EE4704 Project
+  Script for Task B of EE4704 Project
   Student: PANKAJ BHOOTRA
   Matric No.: A0144919W
 %}
@@ -11,7 +11,7 @@ img_enhanced = histeq(img, 256);
 
 %% Question C2
 
-keypoints = [10 30; 70 70; 100 130; 150 180; 200 190; 255 220];
+keypoints = [0 10; 50 80; 180 160; 255 233];
 img_C = htrans(img, keypoints);
 
 function Iout = htrans(Iin, keypoints)
@@ -29,26 +29,20 @@ function Iout = htrans(Iin, keypoints)
   r = keypoints(:, 1)';
   % Get a list of all the targeted image keypoints/gray levels
   s = keypoints(:, 2)';
-  % If 0 in original image is not mapped, add 0,0 keypoint
+  % If 0 in original image is not mapped
   if r(1) ~= 0
       r = [0, r];
       s = [0, s];
       slopes = [double(s(2))/double(r(2)), slopes];
   end
-  % If 255 in original image is not mapped, add 255,255 keypoint
   if r(end) ~= 255
       r = [r, 255];
       s = [s, 255];
       slopes = [slopes, double(s(end) - s(end-1))/double(r(end) - r(end-1))];
   end
-  % Safety check to prevent out of range
   slopes = [slopes, 0];
-  % Get size of input image
   [M, N] = size(Iin);
-  % Initialize output image to all zeros
   Iout = zeros(M, N);
-  % For every value in input image, determine which range it belongs to and
-  % accordingly, apply the corresponding mapping
   for i = 1:M
       for j = 1:N
           rangeIndex = 1;
@@ -60,6 +54,4 @@ function Iout = htrans(Iin, keypoints)
           Iout(i, j) = slopes(rangeIndex) * (Iin(i, j) - r(rangeIndex)) + s(rangeIndex);
       end
   end
-  % Plot transformation function
-  plot(r,s);
 end
